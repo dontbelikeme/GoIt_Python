@@ -7,10 +7,22 @@ from sys import argv
 from os import path
 
 folder = []
-ignore_list = ['./images', './videos', './documents', './audio', './archives']
 home_dir = pathlib.Path.home()
 name, path_dir = argv
 
+images = ['.jpeg','.png','.jpg','.svg']
+video = ['.avi','.mp4','.mov','.mkv']
+documents = ['.doc','.docx','.txt','.pdf','.xlsx','.pptx']
+music = ['.mp3','.ogg','.wav','.amr']
+archives = ['.zip','.gz','.tar','.rar']
+
+img_location = ('./images')
+vid_location = ('./videos')
+doc_location = ('./documents')
+mus_location = ('./audio')
+arc_location = ('./archives/')
+
+location_dirs = [img_location, vid_location, doc_location, mus_location, arc_location]
 
 def del_empty_dirs(path):
     for d in os.listdir(path):
@@ -20,27 +32,13 @@ def del_empty_dirs(path):
             if not os.listdir(a):
                 os.rmdir(a)
 
+def make_dirs(location):
+    os.makedirs(location)
+
 def move_files(pa):
     filename = glob.glob(pa)
-
-    for file_old in filename:
-    
-        file_new = normalize(file_old, legend)
-
-        if file_old != file_new:
-            os.rename(file_old, file_new)
-
-    images = ['.jpeg','.png','.jpg','.svg']
-    video = ['.avi','.mp4','.mov','.mkv']
-    documents = ['.doc','.docx','.txt','.pdf','.xlsx','.pptx']
-    music = ['.mp3','.ogg','.wav','.amr']
-    archives = ['.zip','.gz','.tar','.rar']
-
-    img_location = ('./images')
-    vid_location = ('./videos')
-    doc_location = ('./documents')
-    mus_location = ('./audio')
-    arc_location = ('./archives/')
+    for files in filename:
+       os.rename(files, normalize(files,legend))
 
     filename = glob.glob(pa)
     
@@ -80,10 +78,9 @@ def move_files(pa):
                 shutil.unpack_archive(file,'./archives/' + os.path.splitext(os.path.basename(file))[0] + '/')
                 shutil.move(file, arc_location)
                    
-def normalize (letter, dic):
-    for i, j in dic.items():
-        letter = letter.replace(i, j)
-    return letter
+def normalize (some_string, dic):
+    n_string = some_string.translate(dic)
+    return n_string
 
 legend = {
     '~':'_',
@@ -99,81 +96,82 @@ legend = {
     '{':'_',
     '}':'_',
     ',':'',
-    'а':'a',
-    'б':'b',
-    'в':'v',
-    'г':'g',
-    'д':'d',
-    'е':'e',
-    'ё':'yo',
-    'ж':'zh',
-    'з':'z',
-    'и':'i',
-    'й':'y',
-    'к':'k',
-    'л':'l',
-    'м':'m',
-    'н':'n',
-    'о':'o',
-    'п':'p',
-    'р':'r',
-    'с':'s',
-    'т':'t',
-    'у':'u',
-    'ф':'f',
-    'х':'h',
-    'ц':'c',
-    'ч':'ch',
-    'ш':'sh',
-    'щ':'shch',
-    'ъ':'y',
-    'ы':'y',
-    'ь':"'",
-    'э':'e',
-    'ю':'yu',
-    'я':'ya',
+    ord('а'):'a',
+    ord('б'):'b',
+    ord('в'):'v',
+    ord('г'):'g',
+    ord('д'):'d',
+    ord('е'):'e',
+    ord('ё'):'yo',
+    ord('ж'):'zh',
+    ord('з'):'z',
+    ord('и'):'i',
+    ord('й'):'y',
+    ord('к'):'k',
+    ord('л'):'l',
+    ord('м'):'m',
+    ord('н'):'n',
+    ord('о'):'o',
+    ord('п'):'p',
+    ord('р'):'r',
+    ord('с'):'s',
+    ord('т'):'t',
+    ord('у'):'u',
+    ord('ф'):'f',
+    ord('х'):'h',
+    ord('ц'):'c',
+    ord('ч'):'ch',
+    ord('ш'):'sh',
+    ord('щ'):'shch',
+    ord('ъ'):'y',
+    ord('ы'):'y',
+    ord('ь'):"'",
+    ord('э'):'e',
+    ord('ю'):'yu',
+    ord('я'):'ya',
 
-    'А':'A',
-    'Б':'B',
-    'В':'V',
-    'Г':'G',
-    'Д':'D',
-    'Е':'E',
-    'Ё':'Yo',
-    'Ж':'Zh',
-    'З':'Z',
-    'И':'I',
-    'Й':'Y',
-    'К':'K',
-    'Л':'L',
-    'М':'M',
-    'Н':'N',
-    'О':'O',
-    'П':'P',
-    'Р':'R',
-    'С':'S',
-    'Т':'T',
-    'У':'U',
-    'Ф':'F',
-    'Х':'H',
-    'Ц':'Ts',
-    'Ч':'Ch',
-    'Ш':'Sh',
-    'Щ':'Shch',
-    'Ъ':'Y',
-    'Ы':'Y',
-    'Ь':"'",
-    'Э':'E',
-    'Ю':'Yu',
-    'Я':'Ya',
+    ord('А'):'A',
+    ord('Б'):'B',
+    ord('В'):'V',
+    ord('Г'):'G',
+    ord('Д'):'D',
+    ord('Е'):'E',
+    ord('Ё'):'Yo',
+    ord('Ж'):'Zh',
+    ord('З'):'Z',
+    ord('И'):'I',
+    ord('Й'):'Y',
+    ord('К'):'K',
+    ord('Л'):'L',
+    ord('М'):'M',
+    ord('Н'):'N',
+    ord('О'):'O',
+    ord('П'):'P',
+    ord('Р'):'R',
+    ord('С'):'S',
+    ord('Т'):'T',
+    ord('У'):'U',
+    ord('Ф'):'F',
+    ord('Х'):'H',
+    ord('Ц'):'Ts',
+    ord('Ч'):'Ch',
+    ord('Ш'):'Sh',
+    ord('Щ'):'Shch',
+    ord('Ъ'):'Y',
+    ord('Ы'):'Y',
+    ord('Ь'):"'",
+    ord('Э'):'E',
+    ord('Ю'):'Yu',
+    ord('Я'):'Ya',
     }
+
+for locations in location_dirs:
+    make_dirs(locations)
 
 for i in os.walk(path_dir):
     folder.append(i)
     
 for address, dirs, files in folder:
-    if address.endswith('images') or address.endswith('videos') or address.endswith('documents') or address.endswith('audio') or address.endswith('archives'):
-            continue
     for file in files:
         x = address+'/'+file
         move_files(x)
